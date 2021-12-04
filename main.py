@@ -11,10 +11,14 @@ volcanoes_lat = list(volcanoes_file["LAT"])
 volcanoes_lon = list(volcanoes_file["LON"])
 volcanoes_name = list(volcanoes_file["NAME"])
 
+html = """<h4>Volcano information: </h4>
+Name: %s"""
+
 
 def add_markers(lat, lon, name):
     for lt, ln, nm in zip(lat, lon, name):
-        layer_1.add_child(folium.Marker((lt, ln), popup=nm))
+        iframe = folium.IFrame(html=html % nm, width=100, height=50)
+        layer_1.add_child(folium.Marker((lt, ln), popup=folium.Popup(iframe)))
 
 # create base maps with Stamen Terrain service
 my_map = folium.Map(MY_LOCATION, zoom_start=ZOOM, tiles=MAP_SOURCE)
