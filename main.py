@@ -16,11 +16,26 @@ html = """Volcano name:<br>
 <a href="http://www.google.com/search?q=%%22%s%%22" target="blank">%s</a><br>
 Height: %s m"""
 
+def color_marker(elev):
+    match elev: 
+        case elev if elev < 1500:
+            return "green"
+
+        case elev if 1500 <= elev < 3000:
+            return "orange"
+
+        case elev if elev >= 3000:
+            return "red"
+
+        case _:
+            return "black"
+
 
 def add_markers(lat, lon, name, elev):
     for lt, ln, nm, el in zip(lat, lon, name, elev):
         iframe = folium.IFrame(html=html % (nm, nm, el), width=200, height=100)
-        layer_1.add_child(folium.Marker((lt, ln), popup=folium.Popup(iframe)))
+        layer_1.add_child(folium.Marker((lt, ln), popup=folium.Popup(iframe), 
+            icon=folium.Icon(color=color_marker(el))))
 
 # create base maps with Stamen Terrain service
 my_map = folium.Map(MY_LOCATION, zoom_start=ZOOM, tiles=MAP_SOURCE)
