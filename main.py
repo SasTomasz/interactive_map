@@ -47,7 +47,17 @@ layer_1.add_child(marker)
 
 add_markers(volcanoes_lat, volcanoes_lon, volcanoes_name, volcanoes_elev)
 
+with open('world.json', 'r', encoding='utf-8-sig') as file: 
+    json = file.read()
+
+# add second layer
+layer_2 = folium.FeatureGroup("country")
+layer_2.add_child(folium.GeoJson(data=json, 
+style_function = lambda x: {'fillColor' : 'green' if x['properties']['POP2005'] < 10000000 
+else 'orange' if 10000000 <= x['properties']['POP2005'] <= 20000000 else 'red'}))
+
 # add layers to map
+my_map.add_child(layer_2)
 my_map.add_child(layer_1)
 
 # save map
