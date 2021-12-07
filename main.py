@@ -3,7 +3,7 @@ import pandas
 
 # location where map starts
 MY_LOCATION = (50.061695, 19.936030)
-ZOOM = 15
+ZOOM = 10
 MAP_SOURCE = "Stamen Terrain"
 
 volcanoes_file = pandas.read_csv("Volcanoes.txt")
@@ -41,9 +41,7 @@ def add_markers(lat, lon, name, elev):
 my_map = folium.Map(MY_LOCATION, zoom_start=ZOOM, tiles=MAP_SOURCE)
 
 # add first layer
-layer_1 = folium.FeatureGroup("pointer")
-marker = folium.Marker(MY_LOCATION, "We start here")
-layer_1.add_child(marker)
+layer_1 = folium.FeatureGroup("Volcanoes")
 
 add_markers(volcanoes_lat, volcanoes_lon, volcanoes_name, volcanoes_elev)
 
@@ -59,6 +57,8 @@ else 'orange' if 10000000 <= x['properties']['POP2005'] <= 20000000 else 'red'})
 # add layers to map
 my_map.add_child(layer_2)
 my_map.add_child(layer_1)
+
+my_map.add_child(folium.LayerControl())
 
 # save map
 my_map.save("my_map.html")
